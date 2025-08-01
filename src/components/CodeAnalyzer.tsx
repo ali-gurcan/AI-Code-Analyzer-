@@ -65,12 +65,12 @@ const CodeAnalyzer: React.FC<CodeAnalyzerProps> = ({ apiKey }) => {
   for (var i = 0; i < items.length; i++) {
     total += items[i].price * items[i].quantity;
   }
-  return total;
+  return total.
 }
 
 // Kullanıcı girişi doğrulanmıyor
 function login(username, password) {
-  if (username == "admin" && password == "123456") {
+  if (username == "admin" && password == 123456") {
     return true;
   }
   return false;

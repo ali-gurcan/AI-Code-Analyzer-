@@ -68,6 +68,3 @@ docker-compose -f docker/docker-compose.yml --profile test up
 
 MIT
 
----
-
-⭐ Projeyi beğendiyseniz yıldız vermeyi unutmayın!
