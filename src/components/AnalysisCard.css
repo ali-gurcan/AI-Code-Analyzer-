@@ -1,0 +1,91 @@
+.analysis-card {
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.analysis-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.analysis-card__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.analysis-card__icon {
+  font-size: 16px;
+}
+
+.analysis-card__type {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.analysis-card__title {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.analysis-card__description {
+  margin: 0 0 12px 0;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.analysis-card__code {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 13px;
+  overflow-x: auto;
+}
+
+.analysis-card__code code {
+  color: #2d3748;
+}
+
+/* Type-specific styles */
+.analysis-card--error {
+  border-left: 4px solid #e53e3e;
+}
+
+.analysis-card--error .analysis-card__type {
+  color: #e53e3e;
+}
+
+.analysis-card--security {
+  border-left: 4px solid #d69e2e;
+}
+
+.analysis-card--security .analysis-card__type {
+  color: #d69e2e;
+}
+
+.analysis-card--refactoring {
+  border-left: 4px solid #38a169;
+}
+
+.analysis-card--refactoring .analysis-card__type {
+  color: #38a169;
+}
+
+.analysis-card--default {
+  border-left: 4px solid #3182ce;
+}
+
+.analysis-card--default .analysis-card__type {
+  color: #3182ce;
+}
