@@ -1,0 +1,20 @@
+# Test Dockerfile
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including dev dependencies for testing)
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Set test environment
+ENV NODE_ENV=test
+
+# Run tests by default
+CMD ["npm", "test"]

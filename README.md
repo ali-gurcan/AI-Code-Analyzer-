@@ -18,6 +18,48 @@ npm run test:coverage
 npm run test:ui
 ```
 
+### 🐳 Docker ile Test
+
+Docker kullanarak izole ortamda test çalıştırma:
+
+```bash
+# Test Docker image'ını build et
+docker-compose -f docker/docker-compose.yml --profile test build ai-code-analyzer-test
+
+# Testleri Docker'da çalıştır
+docker-compose -f docker/docker-compose.yml --profile test up ai-code-analyzer-test
+```
+
+Bu komut tüm 130 comprehensive test'i Docker container'ında çalıştırır ve sonuçları gösterir.
+
+## 🏗️ Proje Yapısı
+
+```
+├── docker/              # Docker konfigürasyonları
+│   ├── Dockerfile           # Production Docker image
+│   ├── Dockerfile.dev       # Development Docker image  
+│   ├── Dockerfile.test      # Test Docker image
+│   ├── docker-compose.yml   # Multi-environment setup
+│   ├── nginx.conf           # Nginx configuration
+│   └── DOCKER_TEST_GUIDE.md # Docker test kılavuzu
+├── src/
+│   ├── classes/             # OOP sınıfları
+│   │   ├── GeminiClient.ts       # Gemini API client
+│   │   └── LocalStorageManager.ts # Yerel depolama yöneticisi
+│   ├── components/          # React bileşenleri
+│   │   ├── CodeAnalyzer.tsx      # Ana analiz bileşeni
+│   │   ├── AnalysisCard.tsx      # Tek analiz kartı
+│   │   ├── AnalysisResults.tsx   # Sonuç listesi
+│   │   └── History.tsx           # Geçmiş görüntüleyici
+│   └── test/               # Test dosyaları
+│       ├── GeminiClient.test.ts
+│       ├── LocalStorageManager.test.ts
+│       └── *.test.tsx
+├── package.json
+├── vite.config.ts
+└── README.md
+```
+
 ## 🔧 Geliştirme Scripts
 
 ```bash
@@ -77,18 +119,25 @@ npm run docker:compose
 
 # Development mode
 npm run docker:compose-dev
+
+# Test mode
+npm run docker:compose-test
 ```
 
 ### Manuel Docker Komutları
 
 ```bash
 # Production build
-docker build -t ai-code-analyzer .
+docker build -f docker/Dockerfile -t ai-code-analyzer .
 docker run -p 3000:80 ai-code-analyzer
 
 # Development build
-docker build -f Dockerfile.dev -t ai-code-analyzer-dev .
+docker build -f docker/Dockerfile.dev -t ai-code-analyzer-dev .
 docker run -p 5173:5173 -v $(pwd):/app ai-code-analyzer-dev
+
+# Test build
+docker build -f docker/Dockerfile.test -t ai-code-analyzer-test .
+docker run ai-code-analyzer-test
 ```
 
 ## 🚀 Deployment

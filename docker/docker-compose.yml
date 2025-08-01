@@ -3,8 +3,8 @@ version: '3.8'
 services:
   ai-code-analyzer:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: docker/Dockerfile
     container_name: ai-code-analyzer
     ports:
       - "3000:80"
@@ -21,16 +21,30 @@ services:
   # Development service (optional)
   ai-code-analyzer-dev:
     build:
-      context: .
-      dockerfile: Dockerfile.dev
+      context: ..
+      dockerfile: docker/Dockerfile.dev
     container_name: ai-code-analyzer-dev
     ports:
       - "5173:5173"
     volumes:
-      - .:/app
+      - ..:/app
       - /app/node_modules
     environment:
       - NODE_ENV=development
     command: npm run dev
     profiles:
       - dev
+
+  # Test service
+  ai-code-analyzer-test:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.test
+    container_name: ai-code-analyzer-test
+    volumes:
+      - ..:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=test
+    profiles:
+      - test
