@@ -15,7 +15,7 @@ Google Gemini AI ile kodunuzu analiz edin ve hataları tespit edin.
 ## Kullanım
 
 1. Siteyi ziyaret edin: https://ai-code-analyzer-eight.vercel.app/
-2. Gemini API anahtarınızı girin
+2. Gemini 2.5 flash için API anahtarınızı girin(isteğe bağlı)
 3. Kodunuzu yapıştırın
 4. "Analiz Et" butonuna tıklayın
 5. Sonuçları görüntüleyin
