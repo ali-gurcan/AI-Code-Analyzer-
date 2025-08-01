@@ -77,13 +77,28 @@ Analiz tamamlandığında aşağıdaki bölümleri göreceksiniz:
 - "Geçmiş" sekmesine tıklayın
 - Tüm önceki analizlerinizi görün
 - En yeniden eskiye doğru sıralanır
+- **Analiz sayısı** başlıkta gösterilir
+- **Sorun sayısı** her analiz için özetlenir
 
 #### Geçmiş İşlemleri
+- **Analiz Seç:** Listeden bir analiz seçerek detaylarını sağda görüntüleyin
 - **Yeniden Yükle:** Analizi ana ekrana geri yükler
-- **Sil:** Analizi kalıcı olarak kaldırır
-- **Tümünü Temizle:** Tüm geçmişi siler
+- **Tekil Sil:** Her analizin yanındaki 🗑️ butonuyla tek tek silin
+- **Tümünü Temizle:** "Tümünü Sil" butonuyla tüm geçmişi siler
+- **Sorun Kategorileri:** Her analizde hata, güvenlik, refactoring sayıları ayrı gösterilir
+
+#### Geçmiş Özellikleri
+- **Otomatik Limit:** En son 50 analiz otomatik saklanır
+- **Kod Önizleme:** İlk 200 karakter kod önizlemesi
+- **Tarih Formatı:** Türkçe tarih formatında görüntüleme
+- **Sorun İstatistikleri:** Toplam sorun sayısı ve kategori dağılımı
 
 ### 4. 🔧 Ayarlar ve Özelleştirme
+
+#### Tab Navigasyon
+- **Kod Analizi:** Ana analiz arayüzü
+- **Geçmiş:** Analiz geçmişi ve detay görüntüleme
+- Aktif tab görsel olarak vurgulanır
 
 #### Tema
 - Otomatik olarak sistem temasını algılar
@@ -97,6 +112,13 @@ Analiz tamamlandığında aşağıdaki bölümleri göreceksiniz:
 - Kodunuz sadece analiz için kullanılır
 - Hiçbir veri sunucularda saklanmaz
 - API anahtarı güvenli şekilde saklanır
+- LocalStorage kullanarak browser'da güvenli saklama
+
+#### Performans Özellikleri
+- **Lazy Loading:** Bileşenler gerektiğinde yüklenir
+- **Memoization:** React.useMemo ile optimizasyon
+- **Callback Optimization:** useCallback ile re-render önleme
+- **Storage Limit:** 50 analiz limiti ile performans korunması
 
 ---
 
@@ -120,6 +142,28 @@ docker build -f docker/Dockerfile -t ai-code-analyzer .
 
 # Container çalıştır
 docker run -p 3000:80 ai-code-analyzer
+
+# Development build
+docker build -f docker/Dockerfile.dev -t ai-code-analyzer-dev .
+
+# Development container çalıştır
+docker run -p 5173:5173 -v $(pwd):/app ai-code-analyzer-dev
+
+# Docker Compose komutları
+docker-compose -f docker/docker-compose.yml up          # Production
+docker-compose -f docker/docker-compose.yml --profile dev up    # Development
+docker-compose -f docker/docker-compose.yml --profile test up   # Test
+docker-compose -f docker/docker-compose.yml down        # Durdur
+
+# NPM Scripts ile Docker
+npm run docker:build        # Production image build
+npm run docker:build-dev    # Development image build
+npm run docker:run          # Production container çalıştır
+npm run docker:run-dev      # Development container çalıştır
+npm run docker:compose      # Docker Compose production
+npm run docker:compose-dev  # Docker Compose development
+npm run docker:compose-test # Docker Compose test
+npm run docker:stop         # Docker Compose durdur
 ```
 
 ### 2. 📊 Monitoring
@@ -148,6 +192,13 @@ npm audit fix
 
 # Build test
 npm run build
+
+# Test komutları
+npm test              # Unit testleri çalıştır
+npm run test:watch    # Test watch modu
+npm run test:ui       # Test UI arayüzü
+npm run test:coverage # Coverage raporu
+npm run test:full     # Detaylı test özeti
 ```
 
 #### Backup
@@ -212,6 +263,20 @@ export default defineConfig({
 - Browser'ın localStorage'ı temizlenmemiş olduğundan emin olun
 - Private/Incognito modda değilseniz kontrol edin
 - Aynı browser'ı kullandığınızdan emin olun
+
+#### 5. Analiz Detayları Açılmıyor
+**Sorun:** Geçmişte analize tıkladıktan sonra detaylar görünmüyor
+**Çözüm:**
+- Sayfa yenileyin
+- Başka bir analiz seçip tekrar deneyin
+- Browser console'da hata mesajlarını kontrol edin
+
+#### 6. Tab Geçişi Çalışmıyor
+**Sorun:** "Kod Analizi" ve "Geçmiş" tab'ları arasında geçiş yapılamıyor
+**Çözüm:**
+- JavaScript'in aktif olduğundan emin olun
+- Sayfa tamamen yüklenene kadar bekleyin
+- Browser cache'ini temizleyin
 
 ### Debug Modları
 

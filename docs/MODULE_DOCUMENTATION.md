@@ -60,32 +60,41 @@ const result = await client.analyzeCode('console.log("test")');
 
 ```typescript
 class LocalStorageManager {
-  // Analizi kaydet
+  // Analizi kaydet (max 50 analiz, 200 char code preview)
   saveAnalysis(code: string, result: AnalysisResult): string
   
-  // Tüm analizleri getir
-  getAnalyses(): Analysis[]
+  // Tüm analizleri getir (timestamp'e göre sıralı)
+  getAnalyses(): SavedAnalysis[]
   
   // Belirli analizi getir
-  getAnalysis(id: string): Analysis | null
+  getAnalysis(id: string): SavedAnalysis | null
   
   // Analizi sil
   deleteAnalysis(id: string): boolean
   
   // Tüm analizleri temizle
   clearAnalyses(): void
+  
+  // Unique ID üret (private)
+  private generateId(): string
 }
 ```
 
 #### Veri Yapısı:
 ```typescript
-interface Analysis {
-  id: string;
-  code: string;
-  result: AnalysisResult;
-  timestamp: number;
+interface SavedAnalysis {
+  id: string;                    // Unique identifier
+  timestamp: number;             // Unix timestamp
+  codeSnippet: string;          // İlk 200 karakter preview
+  result: AnalysisResult;       // Tam analiz sonucu
 }
 ```
+
+#### Özellikler:
+- **Otomatik Limit:** En son 50 analiz saklanır
+- **Error Handling:** Try-catch ile güvenli operasyonlar
+- **Preview Generation:** Kod preview için 200 karakter limit
+- **Timestamp Sorting:** En yeni analizler önce gelir
 
 ---
 
@@ -107,19 +116,21 @@ interface CodeAnalyzerProps {
 #### State:
 ```typescript
 interface CodeAnalyzerState {
-  code: string;
-  apiKey: string;
-  isAnalyzing: boolean;
-  currentResult: AnalysisResult | null;
+  code: string;                    // Kullanıcı kod girişi
+  apiKey: string;                  // Gemini API anahtarı
+  isAnalyzing: boolean;           // Analiz durumu
+  currentResult: AnalysisResult | null;  // Son analiz sonucu
+  error: string | null;           // Hata mesajları
 }
 ```
 
 #### Özellikler:
-- Kod girişi textarea
-- API anahtarı girişi
-- Analiz butonu
-- Yükleme durumu
-- Hata yönetimi
+- **API Key Management:** Environment ve props'tan API key yönetimi
+- **Auto-save:** Başarılı analizler otomatik kaydedilir
+- **Error Handling:** Kapsamlı hata yönetimi ve kullanıcı bildirimleri
+- **Loading States:** Analiz sırasında loading durumu
+- **Input Validation:** Kod ve API key doğrulaması
+- **Memoization:** Performance için useMemo ve useCallback kullanımı
 
 ---
 
@@ -177,15 +188,29 @@ interface AnalysisCardProps {
 #### Props:
 ```typescript
 interface HistoryProps {
-  onLoadAnalysis: (analysis: Analysis) => void;
+  // Props almaz - standalone component
+}
+```
+
+#### State:
+```typescript
+interface HistoryState {
+  analyses: SavedAnalysis[];          // Tüm analizler listesi
+  selectedAnalysis: SavedAnalysis | null;  // Seçili analiz
+  isLoading: boolean;                 // Yükleme durumu
 }
 ```
 
 #### Özellikler:
-- Analiz listesi
-- Arama fonksiyonu
-- Toplu silme
-- Sıralama
+- **Analiz listesi** (sayı ile birlikte)
+- **Detay görüntüleme** (sağ panel)
+- **Tarih formatlaması** (Türkçe)
+- **Sorun sayısı** hesaplama ve kategorilendirme
+- **Tekil silme** (🗑️ buton)
+- **Toplu silme** ("Tümünü Sil" buton)
+- **Kod preview** (200 karakter)
+- **Loading states** ve empty states
+- **Interactive selection** (analiz seçimi)
 
 ---
 
@@ -246,11 +271,26 @@ src/test/
 
 ## 🔄 Veri Akışı
 
-1. **Kod Girişi** → CodeAnalyzer
-2. **API Çağrısı** → GeminiClient
-3. **Sonuç İşleme** → AnalysisResults
-4. **Veri Saklama** → LocalStorageManager
-5. **Geçmiş Görüntüleme** → History
+### Ana Akış:
+1. **Kod Girişi** → CodeAnalyzer (textarea)
+2. **API Key Validation** → GeminiClient instantiation
+3. **API Çağrısı** → GeminiClient.analyzeCode()
+4. **Sonuç İşleme** → AnalysisResults component
+5. **Otomatik Saklama** → LocalStorageManager.saveAnalysis()
+6. **Geçmiş Görüntüleme** → History component
+
+### History Akışı:
+1. **Component Mount** → LocalStorageManager.getAnalyses()
+2. **Analiz Seçimi** → setState(selectedAnalysis)
+3. **Detay Görüntüleme** → AnalysisResults re-render
+4. **Silme İşlemi** → LocalStorageManager.deleteAnalysis()
+5. **State Güncelleme** → Re-render with updated list
+
+### Tab Navigation:
+1. **App Component** → Tab state management
+2. **Tab Selection** → ActiveTab state change
+3. **Component Switch** → Conditional rendering
+4. **State Persistence** → Component states preserved
 
 ---
 
@@ -271,8 +311,29 @@ npm run docker:compose  # Container çalıştır
 
 ### Test
 ```bash
-npm test              # Unit tests
-npm run test:coverage # Coverage raporu
+npm test                  # Unit tests (130 tests)
+npm run test:watch        # Test watch mode
+npm run test:ui           # Visual test UI
+npm run test:coverage     # Coverage report
+npm run test:full         # Detailed test summary
+npm run test:overview     # Test overview report
+```
+
+### Docker
+```bash
+# Build commands
+npm run docker:build         # Production image
+npm run docker:build-dev     # Development image
+
+# Run commands
+npm run docker:run           # Production container
+npm run docker:run-dev       # Development container
+
+# Compose commands
+npm run docker:compose       # Production stack
+npm run docker:compose-dev   # Development stack
+npm run docker:compose-test  # Test stack
+npm run docker:stop          # Stop all containers
 ```
 
 ---
