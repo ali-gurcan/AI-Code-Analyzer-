@@ -55,6 +55,64 @@ npm test            # Testleri çalıştır
 - .gitignore ile hassas bilgiler repository'ye dahil edilmez
 - Kullanıcı girişleri sanitize edilir
 
+## 🐳 Docker Kullanımı
+
+### Production Build
+
+```bash
+# Docker image'ı build edin
+npm run docker:build
+
+# Container'ı çalıştırın
+npm run docker:run
+```
+
+Uygulama http://localhost:3000 adresinde çalışacak.
+
+### Docker Compose ile Çalıştırma
+
+```bash
+# Production mode
+npm run docker:compose
+
+# Development mode
+npm run docker:compose-dev
+```
+
+### Manuel Docker Komutları
+
+```bash
+# Production build
+docker build -t ai-code-analyzer .
+docker run -p 3000:80 ai-code-analyzer
+
+# Development build
+docker build -f Dockerfile.dev -t ai-code-analyzer-dev .
+docker run -p 5173:5173 -v $(pwd):/app ai-code-analyzer-dev
+```
+
+## 🚀 Deployment
+
+### Docker Hub'a Push
+
+```bash
+# Tag the image
+docker tag ai-code-analyzer your-username/ai-code-analyzer:latest
+
+# Push to Docker Hub
+docker push your-username/ai-code-analyzer:latest
+```
+
+### Vercel/Netlify Deployment
+
+```bash
+# Build for production
+npm run build
+
+# Preview build
+npm run preview
+```
+
 ## 🤝 Katkıda Bulunma
 
 1. Fork yapın
@@ -72,6 +130,7 @@ Bu proje MIT lisansı altında lisanslanmıştır.
 - Google Gemini AI API
 - React ve TypeScript topluluğu
 - Vite build tool
+- Docker Community
 
 ---
 

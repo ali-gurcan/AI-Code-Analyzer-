@@ -10,7 +10,14 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "docker:build": "docker build -t ai-code-analyzer .",
+    "docker:build-dev": "docker build -f Dockerfile.dev -t ai-code-analyzer-dev .",
+    "docker:run": "docker run -p 3000:80 ai-code-analyzer",
+    "docker:run-dev": "docker run -p 5173:5173 -v $(pwd):/app ai-code-analyzer-dev",
+    "docker:compose": "docker-compose up",
+    "docker:compose-dev": "docker-compose --profile dev up",
+    "docker:stop": "docker-compose down"
   },
   "dependencies": {
     "react": "^19.1.0",
