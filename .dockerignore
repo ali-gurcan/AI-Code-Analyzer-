@@ -1,18 +1,14 @@
 # Docker ignore file
 node_modules
 npm-debug.log
-Dockerfile*
-docker-compose*
-.dockerignore
 .git
 .gitignore
-README.md
-.env
 .nyc_output
 coverage
 .vscode
 .idea
-*.md
-dist
-.DS_Store
 *.log
+.DS_Store
+.env
+docker/Dockerfile*
+docker/docker-compose.yml
