@@ -15,6 +15,7 @@ vi.stubGlobal('localStorage', localStorageMock);
 
 describe('LocalStorageManager - Comprehensive Tests', () => {
   let storageManager: LocalStorageManager;
+  let consoleSpy: any;
   
   const sampleAnalysisResult: AnalysisResult = {
     errors: ['Sample error'],
@@ -23,12 +24,16 @@ describe('LocalStorageManager - Comprehensive Tests', () => {
   };
 
   beforeEach(() => {
+    // Suppress console.error messages during testing
+    consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    
     vi.clearAllMocks();
     storageManager = new LocalStorageManager();
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+    consoleSpy.mockRestore();
   });
 
   describe('Save Analysis Tests', () => {

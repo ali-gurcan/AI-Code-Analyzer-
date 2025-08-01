@@ -7,15 +7,20 @@ vi.stubGlobal('fetch', mockFetch);
 
 describe('GeminiClient - Comprehensive Tests', () => {
   let client: GeminiClient;
+  let consoleSpy: any;
   const validApiKey = 'test-api-key-123';
 
   beforeEach(() => {
+    // Suppress console.error messages during testing
+    consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    
     vi.clearAllMocks();
     client = new GeminiClient(validApiKey);
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
+    consoleSpy.mockRestore();
   });
 
   describe('Constructor and Initialization', () => {
