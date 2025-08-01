@@ -1,4 +1,29 @@
-# 🔍 AI Kod Analiz AracıGemini AI ile desteklenen modern kod analiz uygulaması. Kodunuzdaki hataları, güvenlik açıklarını ve iyileştirme önerilerini tespit eder.## ✨ Özellikler- **🤖 AI Destekli Analiz**: Google Gemini 2.0 Flash API kullanarak akıllı kod analizi- **🎯 Kapsamlı Kontrol**: Hata tespiti, güvenlik analizi ve refactoring önerileri- **💾 Geçmiş Takibi**: Tüm analizler yerel depolamada saklanır- **🎨 Modern Arayüz**: React + TypeScript ile temiz ve kullanıcı dostu tasarım- **📱 Responsive**: Masaüstü ve mobil cihazlarda mükemmel görünüm- **🧪 Test Edildi**: Kapsamlı unit ve entegrasyon testleri## 🚀 Kurulum### Önkoşullar- Node.js 18+ - npm veya yarn- Gemini API anahtarı ([Google AI Studio](https://ai.google.dev/tutorials/setup)'dan alın)### Kurulum Adımları1. **Repository'yi klonlayın:**```bashgit clone https://github.com/ali-gurcan/AI-Code-Analyzer-.gitcd AI-Code-Analyzer-```2. **Bağımlılıkları yükleyin:**```bashnpm install```3. **Environment dosyasını oluşturun:**```bashcp .env.example .env```4. **API anahtarınızı .env dosyasına ekleyin:**```VITE_GEMINI_API_KEY=your_gemini_api_key_here```5. **Uygulamayı başlatın:**```bashnpm run dev```## 🎯 Kullanım1. **API Anahtarı**: Gemini API anahtarınızı girin (otomatik olarak .env'den yüklenir)2. **Kod Girişi**: Analiz etmek istediğiniz kodu metin alanına yapıştırın3. **Analiz**: "Kodu Analiz Et" butonuna tıklayın4. **Sonuçlar**: Hatalar, güvenlik açıkları ve iyileştirme önerilerini görüntüleyin5. **Geçmiş**: Önceki analizlerinizi "Geçmiş" sekmesinden görüntüleyin## 🏗️ Proje Yapısı```src/├── classes/           # OOP sınıfları│   ├── GeminiClient.ts       # Gemini API client│   └── LocalStorageManager.ts # Yerel depolama yöneticisi├── components/        # React bileşenleri│   ├── CodeAnalyzer.tsx      # Ana analiz bileşeni│   ├── AnalysisCard.tsx      # Tek analiz kartı│   ├── AnalysisResults.tsx   # Sonuç listesi│   └── History.tsx           # Geçmiş görüntüleyici└── test/             # Test dosyaları    ├── GeminiClient.test.ts
+# 🔍 AI Kod Analiz Aracı
+
+Gemini AI ile desteklenen modern kod analiz uygulaması. Kodunuzdaki hataları, güvenlik açıklarını ve iyileştirme önerilerini tespit eder.
+
+## ✨ Özellikler
+
+- **🤖 AI Destekli Analiz**: Google Gemini 2.0 Flash API kullanarak akıllı kod analizi
+- **🎯 Kapsamlı Kontrol**: Hata tespiti, güvenlik analizi ve refactoring önerileri
+- **💾 Geçmiş Takibi**: Tüm analizler yerel depolamada saklanır
+- **🎨 Modern Arayüz**: React + TypeScript ile temiz ve kullanıcı dostu tasarım
+- **📱 Responsive**: Masaüstü ve mobil cihazlarda mükemmel görünüm
+- **🧪 Test Edildi**: Kapsamlı unit ve entegrasyon testleri
+
+## 🚀 Kurulum
+
+### Önkoşullar
+
+- Node.js 18+ 
+- npm veya yarn
+- Gemini API anahtarı ([Google AI Studio](https://ai.google.dev/tutorials/setup)'dan alın)
+
+### Kurulum Adımları1. **Repository'yi klonlayın:**```bashgit clone https://github.com/ali-gurcan/AI-Code-Analyzer-.gitcd AI-Code-Analyzer-```2. **Bağımlılıkları yükleyin:**```bashnpm install```3. **Environment dosyasını oluşturun:**```bashcp .env.example .env```4. **API anahtarınızı .env dosyasına ekleyin:**```VITE_GEMINI_API_KEY=your_gemini_api_key_here```5. **Uygulamayı başlatın:**```bashnpm run dev```## 🎯 Kullanım1. **API Anahtarı**: Gemini API anahtarınızı girin (otomatik olarak .env'den yüklenir)2. **Kod Girişi**: Analiz etmek istediğiniz kodu metin alanına yapıştırın3. **Analiz**: "Kodu Analiz Et" butonuna tıklayın4. **Sonuçlar**: Hatalar, güvenlik açıkları ve iyileştirme önerilerini görüntüleyin5. **Geçmiş**: Önceki analizlerinizi "Geçmiş" sekmesinden görüntüleyin
+
+## 🧪 Test
+
+Testleri çalıştırmak için:## 🏗️ Proje Yapısı```src/├── classes/           # OOP sınıfları│   ├── GeminiClient.ts       # Gemini API client│   └── LocalStorageManager.ts # Yerel depolama yöneticisi├── components/        # React bileşenleri│   ├── CodeAnalyzer.tsx      # Ana analiz bileşeni│   ├── AnalysisCard.tsx      # Tek analiz kartı│   ├── AnalysisResults.tsx   # Sonuç listesi│   └── History.tsx           # Geçmiş görüntüleyici└── test/             # Test dosyaları    ├── GeminiClient.test.ts
     ├── LocalStorageManager.test.ts
     └── *.test.tsx
 ```
@@ -40,8 +65,7 @@ Bu komut tüm 130 comprehensive test'i Docker container'ında çalıştırır ve
 │   ├── Dockerfile.dev       # Development Docker image  
 │   ├── Dockerfile.test      # Test Docker image
 │   ├── docker-compose.yml   # Multi-environment setup
-│   ├── nginx.conf           # Nginx configuration
-│   └── DOCKER_TEST_GUIDE.md # Docker test kılavuzu
+│   └── nginx.conf           # Nginx configuration
 ├── src/
 │   ├── classes/             # OOP sınıfları
 │   │   ├── GeminiClient.ts       # Gemini API client
