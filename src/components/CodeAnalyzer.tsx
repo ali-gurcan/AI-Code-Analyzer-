@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { GeminiClient } from '../classes/GeminiClient';
 import { LocalStorageManager } from '../classes/LocalStorageManager';
 import AnalysisResults from './AnalysisResults';
@@ -18,8 +18,11 @@ const CodeAnalyzer: React.FC<CodeAnalyzerProps> = ({ apiKey }) => {
     apiKey || import.meta.env.VITE_GEMINI_API_KEY || ''
   );
 
-  const geminiClient = currentApiKey ? new GeminiClient(currentApiKey) : null;
-  const storageManager = new LocalStorageManager();
+  const geminiClient = useMemo(() => {
+    return currentApiKey ? new GeminiClient(currentApiKey) : null;
+  }, [currentApiKey]);
+  
+  const storageManager = useMemo(() => new LocalStorageManager(), []);
 
   const handleAnalyzeCode = useCallback(async () => {
     if (!geminiClient) {

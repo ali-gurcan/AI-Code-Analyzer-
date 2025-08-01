@@ -9,10 +9,17 @@ export class GeminiClient {
   private baseUrl: string = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
   constructor(apiKey: string) {
-    this.apiKey = apiKey;
+    if (!apiKey || apiKey.trim() === '') {
+      throw new Error('API key is required');
+    }
+    this.apiKey = apiKey.trim();
   }
 
   async analyzeCode(codeContent: string): Promise<AnalysisResult> {
+    if (!codeContent || codeContent.trim() === '') {
+      throw new Error('Code cannot be empty');
+    }
+
     try {
       const prompt = `Bu kodu analiz et ve varsa hata, güvenlik açığı ve refactoring önerilerini, her birini ayrı bir liste içinde bir JSON nesnesi olarak döndür. 
 
@@ -50,7 +57,7 @@ ${codeContent}`;
       const data = await response.json();
       
       if (!data.candidates || data.candidates.length === 0) {
-        throw new Error('No response from Gemini API');
+        throw new Error('No response from AI model');
       }
 
       const textResponse = data.candidates[0].content.parts[0].text;
@@ -58,7 +65,7 @@ ${codeContent}`;
       // Try to extract JSON from the response
       const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
       if (!jsonMatch) {
-        throw new Error('No valid JSON found in API response');
+        throw new Error('Failed to parse analysis result');
       }
 
       const analysisResult = JSON.parse(jsonMatch[0]);
@@ -87,7 +94,13 @@ ${codeContent}`;
 
     } catch (error) {
       console.error('Error analyzing code:', error);
-      throw new Error(error instanceof Error ? error.message : 'Unknown error occurred');
+      if (error instanceof Error) {
+        if (error.message.includes('Failed to fetch') || error.message.includes('Network')) {
+          throw new Error('Network error during analysis');
+        }
+        throw error;
+      }
+      throw new Error('Unknown error occurred during analysis');
     }
   }
 
