@@ -4,7 +4,7 @@ import { vi } from 'vitest';
 // Setup test environment variables
 Object.defineProperty(import.meta, 'env', {
   value: { 
-    VITE_GEMINI_API_KEY: 'AIzaSyBfwARyf7X72opHdCmNIy17n7ZGtCAbVes'
+    VITE_GEMINI_API_KEY: 'WRITE_KEY'
   },
   writable: true
 });
