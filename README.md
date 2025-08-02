@@ -42,6 +42,7 @@ echo "VITE_GEMINI_API_KEY=your_api_key_here" > .env
 ## API Anahtarı
 
 Gemini API anahtarını [Google AI Studio](https://ai.google.dev/tutorials/setup)'dan alabilirsiniz.
+Test için src/Test/Setup.ts ekleyin.
 
 ## Docker ile Çalıştırma
 
